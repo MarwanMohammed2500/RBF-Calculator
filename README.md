@@ -57,3 +57,22 @@ The core functionality is implemented in the `RBF` class:
 - `plot_x()`: Plots the original data in feature space.
 - `plot_phi()`: Plots transformed RBF features.
 - `show_table()`: Displays the processed data table.
+
+## Screenshots from the app
+### When you open the app
+![image](https://github.com/user-attachments/assets/f5dd9eb4-779f-437a-9985-2fadb06b0d4a)
+
+Once you fill the required data fields, click on "Calculate R"
+
+### Calculate R
+![image](https://github.com/user-attachments/assets/8f9e1d26-7951-4be7-bd79-11a806091353)
+
+Then Click on "Calculate Phi"
+
+### Calculate Phi
+![image](https://github.com/user-attachments/assets/cd9498b6-d7b8-425b-ab52-50d357636b07)
+
+Then it shows the updated table with the original and transformed spaces, then you can click on "Plot", it shows the plots for both the original and transformed spaces
+![image](https://github.com/user-attachments/assets/8fd8bfce-ecc6-41d1-9f13-58d73f7fac3c)
+
+![image](https://github.com/user-attachments/assets/be5573a8-21e1-4a47-a668-80e9ee04ba38)
