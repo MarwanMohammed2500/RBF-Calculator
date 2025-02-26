@@ -1,8 +1,8 @@
-# RBF (Radial Basis Function) Visualizer
+# RBF (Radial Basis Function) Calculator 
 
 ## Overview
 
-This project is a Streamlit-based interactive tool for visualizing the Radial Basis Function (RBF) transformation of 2D data points. Users can input data points, define centroids, and observe how RBF transformations affect the dataset.
+This project is a Streamlit-based interactive tool for calculating and visualizing the Radial Basis Function (RBF) transformation of 2D data points. Users can input data points, define centroids, and observe how RBF transformations affect the dataset.
 
 ## Features
 
@@ -29,15 +29,6 @@ To run this project, follow these steps:
    ```bash
    streamlit run main.py
    ```
-
-## Dependencies
-
-Ensure you have the following Python libraries installed:
-
-- `numpy`
-- `pandas`
-- `matplotlib`
-- `streamlit`
 
 ## Usage
 
