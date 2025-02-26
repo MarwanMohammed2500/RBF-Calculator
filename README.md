@@ -70,3 +70,5 @@ Then it shows the updated table with the original and transformed spaces, then y
 
 ## Video Demo
 https://github.com/user-attachments/assets/3a89b11c-5eea-498d-b374-fe95a7f469ac
+
+# Test it out yourself if you want through (https://rbf-calculator.streamlit.app/)
