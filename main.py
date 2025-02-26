@@ -15,7 +15,7 @@ def main():
     rbf.get_input()
 
     # Enable next step only when input is valid
-    if rbf.c1 is not None and rbf.c2 is not None and rbf.segma_sq is not None:
+    if rbf.c1 is not None and rbf.c2 is not None and rbf.sigma_sq is not None:
         st.session_state.step_1_done = True
 
     # Step 2: Calculate R (Enabled only if Step 1 is done)
