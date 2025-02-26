@@ -62,10 +62,9 @@ Then Click on "Calculate Phi"
 
 ### Calculate Phi
 ![image](https://github.com/user-attachments/assets/cd9498b6-d7b8-425b-ab52-50d357636b07)
-
 Then it shows the updated table with the original and transformed spaces, then you can click on "Plot", it shows the plots for both the original and transformed spaces
+
 ![image](https://github.com/user-attachments/assets/8fd8bfce-ecc6-41d1-9f13-58d73f7fac3c)
---
 ![image](https://github.com/user-attachments/assets/be5573a8-21e1-4a47-a668-80e9ee04ba38)
 
 
