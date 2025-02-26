@@ -29,9 +29,9 @@ class RBF:
 
         __data = st.data_editor(pd.DataFrame({'category': [], 'x1': [], "x2":[]}), num_rows="dynamic")
         self.df = pd.DataFrame(__data)
-        self.c1 = st.text_input("Enter c1 (split values with a comma ','):")
-        self.c2 = st.text_input("Enter c2 (split values with a comma ','):")
-        self.segma_sq = st.text_input("Enter 𝝈^2 (either as a floating points or integer, no fractions allowed):")
+        self.c1 = st.text_input("Enter c1 (separate values using a comma):")
+        self.c2 = st.text_input("Enter c2 (separate values using a comma):")
+        self.segma_sq = st.text_input("Enter 𝝈^2 (either enter a floating point or an integer, no fractions allowed):")
         if self.c1 and self.c2 and self.segma_sq:
             try:
                 self.c1 = np.array(list(map(float, self.c1.split(','))))
