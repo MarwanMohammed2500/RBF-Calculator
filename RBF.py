@@ -24,19 +24,19 @@ class RBF:
         self.df --> the DataFrame representing our table, from which we will read, and to which we will write
         self.c1 --> The first centroid coordinates
         self.c2 --> The second centroid coordinates
-        self.segma_sq --> The variance
+        self.sigma_sq --> The variance
         """
 
         __data = st.data_editor(pd.DataFrame({'category': [], 'x1': [], "x2":[]}), num_rows="dynamic")
         self.df = pd.DataFrame(__data)
         self.c1 = st.text_input("Enter c1 (separate values using a comma):")
         self.c2 = st.text_input("Enter c2 (separate values using a comma):")
-        self.segma_sq = st.text_input("Enter 𝝈^2 (either enter a floating point or an integer, no fractions allowed):")
-        if self.c1 and self.c2 and self.segma_sq:
+        self.sigma_sq = st.text_input("Enter 𝝈^2 (either enter a floating point or an integer, no fractions allowed):")
+        if self.c1 and self.c2 and self.sigma_sq:
             try:
                 self.c1 = np.array(list(map(float, self.c1.split(','))))
                 self.c2 = np.array(list(map(float, self.c2.split(','))))
-                self.segma_sq = float(self.segma_sq)
+                self.sigma_sq = float(self.sigma_sq)
             except ValueError:
                 st.warning("Invalid input detected. Please enter correct values.")
         else:
@@ -44,11 +44,11 @@ class RBF:
     
     def calc_r(self):
         """
-        This function calculates the distance between each point and each centroid, where R1 represents the distances between the points and the first centroid, and R2 represents the distances
-        between the points and the second centroid.
+        This function calculates the squared Euclidean distance between each point and each centroid, where R1 represents the vector of the distances between the points and
+        the first centroid and R2 represent the vector of the distances between the points and the second centroid.
 
-        r1_sq --> Squared distance between the points and C1
-        r2_sq --> Squared distance between the points and C2
+        r1_sq --> Squared Euclidean distance between the points and C1
+        r2_sq --> Squared Euclidean distance between the points and C2
         """
 
         r1_sq= (self.df.x1 - self.c1[0])**2 + (self.df.x2 - self.c1[1])**2
@@ -64,8 +64,8 @@ class RBF:
         """
         
         self.df = st.session_state.get("df", self.df) # Reads the session state DataFrame, so it gets the updated value after calculating R1^2 and R2^2
-        phi1= np.exp(-self.df["r1 ^2"] / (2 * self.segma_sq))
-        phi2= np.exp(-self.df["r2 ^2"] / (2 * self.segma_sq))
+        phi1= np.exp(-self.df["r1 ^2"] / (2 * self.sigma_sq))
+        phi2= np.exp(-self.df["r2 ^2"] / (2 * self.sigma_sq))
         self.df = self.df.join(pd.DataFrame({'∅1': phi1, "∅2": phi2}, index=self.df.index)) 
         st.session_state.df = self.df
     
