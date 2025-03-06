@@ -36,6 +36,8 @@ class SOM:
                 self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
                 self.learning_rate = float(self.learning_rate) # Cast it into "float"
                 self.decay = float(self.decay) # Cast it into "float"
+                if self.decay > 1:
+                    st.warning("the rate of decay must be between 0 and 1")
                 if self.choice == "Random Initialization":
                     self.initialize_vectors_random() # Call initialize_vectors_random after making sure all inputs are valid.
                 else:
