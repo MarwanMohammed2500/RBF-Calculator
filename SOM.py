@@ -114,8 +114,8 @@ class SOM:
         # Save the updated cluster vectors in session state
         st.session_state.clusters_vectors = self.clusters_vectors
         
-        # st.write("All Distances:")
-        # st.write(all_distances)
+        st.write("All Distances:")
+        st.write(all_distances)
         return all_distances
     
     def update_weights(self, training_vec, cluster_vec):
