@@ -52,7 +52,8 @@ class SOM:
         """
         if hasattr(self, 'number_of_neurons') and hasattr(self, 'number_of_clusters'):
             self.clusters_vectors = np.random.rand(self.number_of_neurons, self.number_of_clusters) # Randomly Initialize the cluster weights
-            data = {col: [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
+            data = {f"Training Vector #{col+1}": [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
+            st.write("Input training vectors (each row is a training vector):")
             training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
             self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
         else:
@@ -66,12 +67,14 @@ class SOM:
         self.training_vectors --> The training vectors
         """
         if hasattr(self, 'number_of_neurons') and hasattr(self, 'number_of_clusters'):
-            col = {col: [] for col in range(self.number_of_clusters)}
-            clusters_vects = st.data_editor(pd.DataFrame(col), num_rows="dynamic")
-            self.clusters_vectors = np.array(clusters_vects)
-            data = {col: [] for col in range(self.number_of_neurons)}
-            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic")
-            self.training_vectors = pd.DataFrame(training_vects)
+            col = {f"Cluster #{col+1} weights": [] for col in range(self.number_of_clusters)} # Get the number of columns (number of clusters) for the next step
+            st.write("Input cluster weights (each column is a weight vector):")
+            clusters_vects = st.data_editor(pd.DataFrame(col), num_rows="dynamic") # Get user input to initialize the cluster weights
+            self.clusters_vectors = np.array(clusters_vects) # Turns it into a NumPy array
+            data = {f"Training Vector #{col+1}": [] for col in range(self.number_of_neurons)}
+            st.write("Input training vectors (each row is a training vector):")
+            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
+            self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
         else:
             st.warning("Please provide valid input for number of neurons and clusters.")
     
@@ -114,8 +117,8 @@ class SOM:
         # Save the updated cluster vectors in session state
         st.session_state.clusters_vectors = self.clusters_vectors
         
-        st.write("All Distances:")
-        st.write(all_distances)
+        # st.write("All Distances:")
+        # st.write(all_distances)
         return all_distances
     
     def update_weights(self, training_vec, cluster_vec):
