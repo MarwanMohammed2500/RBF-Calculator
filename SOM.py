@@ -3,7 +3,27 @@ import streamlit as st
 import pandas as pd
 
 class SOM:
+    """
+    This class uses a sequence of functions to calculate the Self-Organizing Map (AKA SOM)
+    get_input():
+        Used to get the user input from the UI, input like the number of neurons (inputs), number of clusters, learning rate.
+    initialize_vectors():
+        Used to initialize the cluster vectors and training vectors.
+    calculate_distance():
+        Used to calculate squared euclidean distance between each training vector and each cluster.
+    update_weights():
+        Used to update the weight given the equation W_new = W_old + learning_rate*(x - W_old).
+    show_new_weights():
+        Used to show the table of updated weights.
+    """
     def get_input(self):
+        """
+        This function is responsible for getting user input from the interface and making sure the user inputs the right data types into their respective fields.
+        Inputs:
+        self.number_of_neurons --> The number of neurons (inputs) in the network
+        self.number_of_clusters --> The number of clusters
+        self.learning_rate --> The learning rate
+        """
         self.number_of_neurons = st.text_input("How many neurons exist?:") # Get the number of neurons
         self.number_of_clusters = st.text_input("How many clusters exist?:") # Get the number of clusters
         self.learning_rate = st.text_input("What is the initial learning rate?:") # get the learning rate
@@ -12,22 +32,37 @@ class SOM:
                 self.number_of_neurons = int(self.number_of_neurons) # Cast it into "int"
                 self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
                 self.learning_rate = float(self.learning_rate) # Cast it into "float"
-                self.initialize_vectors()
+                self.initialize_vectors() # Call initialize_vectors after making sure all inputs are valid.
             except ValueError:
                 st.warning("Invalid input detected. Please enter correct values.")
         else:
             st.info("Please provide input data to proceed.")
         
     def initialize_vectors(self):
+        """
+        This function is responsible for initializing clusters vectors and training vectors:
+        self.clusters_vectors --> cluster weights matrix
+        self.number_of_clusters --> The number of clusters
+        self.training_vectors --> The training vectors
+        """
         if hasattr(self, 'number_of_neurons') and hasattr(self, 'number_of_clusters'):
-            self.clusters_vectors = np.random.rand(self.number_of_neurons, self.number_of_clusters)
-            data = {col: [] for col in range(self.number_of_neurons)}
-            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic")
-            self.training_vectors = pd.DataFrame(training_vects)
+            self.clusters_vectors = np.random.rand(self.number_of_neurons, self.number_of_clusters) # Randomly Initialize the cluster weights
+            data = {col: [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
+            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
+            self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
         else:
             st.warning("Please provide valid input for number of neurons and clusters.")
     
     def calculate_distance(self):
+        """
+        This function calculates the squared Euclidean distance between each point and each cluster,.
+
+        num_rows_of_training_vectors --> Number of rows in the training matrix
+        num_cols_of_clusters --> Number of columns in the cluster matrix
+        all_distances --> Saves all distances calculated per each iteration
+        distances --> Temporary storage for the iteration's distances
+        min_index --> Gets the index of the minimum value
+        """
         num_rows_of_training_vectors = self.training_vectors.shape[0]
         num_cols_of_clusters = self.clusters_vectors.shape[1]
         
@@ -56,19 +91,27 @@ class SOM:
         
         # Save the updated cluster vectors in session state
         st.session_state.clusters_vectors = self.clusters_vectors
+        
         # st.write("All Distances:")
         # st.write(all_distances)
         return all_distances
     
     def update_weights(self, training_vec, cluster_vec):
+        """
+        This function is responsible for updating the weights
+        Inputs:
+            cluster_vec --> Cluster vector we're updating
+            training_vec --> Training vector we're iterating through
+        Output:
+            updated_weights --> the updated weights
+        """
         # Update the cluster vector using the SOM weight update rule
         updated_weights = cluster_vec + self.learning_rate * (training_vec - cluster_vec)
         return updated_weights
     
     def show_new_weights(self):
         """
-        This function shows the table (DataFrame) in the streamlit UI, it can be used any time throughout execution (edit in main.py), but for now, main.py is made to use this only after
-        executing calc_r and calc_phi
+        This function shows the table (DataFrame) in the streamlit UI.
         """
         self.clusters_vectors = st.session_state.get("clusters_vectors", self.clusters_vectors)
         st.write("Updated Cluster Weights:")
