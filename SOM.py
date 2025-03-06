@@ -120,7 +120,7 @@ class SOM:
         
         # Save the updated cluster vectors in session state
         st.session_state.clusters_vectors = self.clusters_vectors
-        
+                
         # st.write("All Distances:")
         # st.write(all_distances)
         return all_distances
@@ -137,6 +137,20 @@ class SOM:
         # Update the cluster vector using the SOM weight update rule
         updated_weights = cluster_vec + self.learning_rate * (training_vec - cluster_vec)
         return updated_weights
+    
+    def find_winner(self):
+        num_rows_of_training_vectors = self.training_vectors.shape[0]
+        num_cols_of_clusters = self.clusters_vectors.shape[1]
+        for i in range(num_rows_of_training_vectors):
+            # Initialize a temporary array to store distances for the current training vector
+            distances = np.zeros(num_cols_of_clusters)
+            
+            for j in range(num_cols_of_clusters):
+                # Calculate the squared Euclidean distance between the training vector and cluster vector
+                distances[j] = np.sum((self.training_vectors.iloc[i, :] - self.clusters_vectors[:, j]) ** 2)
+            
+            min_index = np.argmin(distances)
+            st.write(f"Neuron {i+1} belongs to cluster {min_index}")
     
     def show_new_weights(self):
         """
