@@ -38,10 +38,10 @@ class SOM:
         else:
             st.info("Please provide input data to proceed.")
         
-    def initialize_vectors(self):
+    def initialize_vectors_random(self):
         """
         This function is responsible for initializing clusters vectors and training vectors:
-        self.clusters_vectors --> cluster weights matrix
+        self.clusters_vectors --> cluster weights matrix (randomly initialized)
         self.number_of_clusters --> The number of clusters
         self.training_vectors --> The training vectors
         """
@@ -50,6 +50,23 @@ class SOM:
             data = {col: [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
             training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
             self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
+        else:
+            st.warning("Please provide valid input for number of neurons and clusters.")
+
+    def initialize_vectors_input(self):
+        """
+        This function is responsible for initializing clusters vectors and training vectors:
+        self.clusters_vectors --> cluster weights matrix (user input)
+        self.number_of_clusters --> The number of clusters
+        self.training_vectors --> The training vectors
+        """
+        if hasattr(self, 'number_of_neurons') and hasattr(self, 'number_of_clusters'):
+            col = {col: [] for col in range(self.number_of_clusters)}
+            clusters_vects = st.data_editor(pd.DataFrame(col), num_rows="dynamic")
+            self.clusters_vectors = np.array(clusters_vects)
+            data = {col: [] for col in range(self.number_of_neurons)}
+            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic")
+            self.training_vectors = pd.DataFrame(training_vects)
         else:
             st.warning("Please provide valid input for number of neurons and clusters.")
     
