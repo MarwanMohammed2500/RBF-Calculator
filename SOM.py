@@ -32,7 +32,7 @@ class SOM:
                 self.number_of_neurons = int(self.number_of_neurons) # Cast it into "int"
                 self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
                 self.learning_rate = float(self.learning_rate) # Cast it into "float"
-                self.initialize_vectors() # Call initialize_vectors after making sure all inputs are valid.
+                self.initialize_vectors_random() # Call initialize_vectors after making sure all inputs are valid.
             except ValueError:
                 st.warning("Invalid input detected. Please enter correct values.")
         else:
