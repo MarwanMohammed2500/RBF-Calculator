@@ -27,12 +27,17 @@ class SOM:
         self.number_of_neurons = st.text_input("How many neurons exist?:") # Get the number of neurons
         self.number_of_clusters = st.text_input("How many clusters exist?:") # Get the number of clusters
         self.learning_rate = st.text_input("What is the initial learning rate?:") # get the learning rate
-        if self.number_of_neurons and self.number_of_clusters and self.learning_rate: # check input
+        choice = st.selectbox("Would you like to randomly initialize the weights or have your own input",
+                              ("Random Initialization", "I have my own weights"))
+        if self.number_of_neurons and self.number_of_clusters and self.learning_rate and choice: # check input
             try:
                 self.number_of_neurons = int(self.number_of_neurons) # Cast it into "int"
                 self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
                 self.learning_rate = float(self.learning_rate) # Cast it into "float"
-                self.initialize_vectors_random() # Call initialize_vectors after making sure all inputs are valid.
+                if choice == "Random Initialization":
+                    self.initialize_vectors_random() # Call initialize_vectors_random after making sure all inputs are valid.
+                else:
+                    self.initialize_vectors_input() # Call initialize_vectors_input after making sure all inputs are valid.
             except ValueError:
                 st.warning("Invalid input detected. Please enter correct values.")
         else:
