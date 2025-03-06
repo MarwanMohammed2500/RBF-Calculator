@@ -79,7 +79,7 @@ def main():
 
         # Step 4: Show Updated Cluster Weights (Enabled only if Step 3 is done)
         if st.session_state.get("step_2_done", False):
-            st.subheader("Step 4: Show Updated Cluster Weights")
+            st.subheader("Step 3: Show Updated Cluster Weights")
             som.show_new_weights()
 
 if __name__ == "__main__":
