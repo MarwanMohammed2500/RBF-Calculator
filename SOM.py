@@ -27,14 +27,16 @@ class SOM:
         self.number_of_neurons = st.text_input("How many neurons exist?:") # Get the number of neurons
         self.number_of_clusters = st.text_input("How many clusters exist?:") # Get the number of clusters
         self.learning_rate = st.text_input("What is the initial learning rate?:") # get the learning rate
-        choice = st.selectbox("Would you like to randomly initialize the weights or have your own input",
+        self.decay = st.text_input("What is the rate of decay of the learning rate?:") # get the rate of decay of the learning rate
+        self.choice = st.selectbox("Would you like to randomly initialize the weights or have your own input",
                               ("Random Initialization", "I have my own weights"))
-        if self.number_of_neurons and self.number_of_clusters and self.learning_rate and choice: # check input
+        if self.number_of_neurons and self.number_of_clusters and self.learning_rate and self.choice and self.decay: # check input
             try:
                 self.number_of_neurons = int(self.number_of_neurons) # Cast it into "int"
                 self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
                 self.learning_rate = float(self.learning_rate) # Cast it into "float"
-                if choice == "Random Initialization":
+                self.decay = float(self.decay) # Cast it into "float"
+                if self.choice == "Random Initialization":
                     self.initialize_vectors_random() # Call initialize_vectors_random after making sure all inputs are valid.
                 else:
                     self.initialize_vectors_input() # Call initialize_vectors_input after making sure all inputs are valid.
@@ -112,7 +114,7 @@ class SOM:
             self.clusters_vectors[:, min_index] = self.update_weights(self.training_vectors.iloc[i, :], self.clusters_vectors[:, min_index])
         
         # Decay the learning rate
-        self.learning_rate = self.learning_rate * 0.5
+        self.learning_rate = self.learning_rate * self.decay
         
         # Save the updated cluster vectors in session state
         st.session_state.clusters_vectors = self.clusters_vectors
