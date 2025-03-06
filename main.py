@@ -67,19 +67,25 @@ def main():
         som.get_input()
 
         # Enable next step only when input is valid
-        if som.number_of_neurons is not None and som.number_of_clusters is not None and som.learning_rate is not None:
+        if som.number_of_neurons is not None and som.number_of_clusters is not None and som.learning_rate is not None and som.choice is not None and som.decay is not None:
             st.session_state.step_1_done = True
 
-        # Step 3: Calculate Distance (Enabled only if Step 2 is done)
+        # Step 2: Calculate Distance (Enabled only if Step 1 is done)
         if st.session_state.get("step_1_done", False):
             st.subheader("Step 2: Compute Distance")
             if st.button("Calculate Distance"):
                 som.calculate_distance()
                 st.session_state.step_2_done = True
+        
+        # Step 3: Get the winner cluster for each neuron. (Enabled only when step 2 is done)
+        if st.session_state.get("step_2_done", False):
+            st.subheader("Get winner cluster for each neuron")
+            som.find_winner()
+            st.session_state.step_3_done = True
 
         # Step 4: Show Updated Cluster Weights (Enabled only if Step 3 is done)
-        if st.session_state.get("step_2_done", False):
-            st.subheader("Step 3: Show Updated Cluster Weights")
+        if st.session_state.get("step_3_done", False):
+            st.subheader("Show Updated Cluster Weights")
             som.show_new_weights()
 
 if __name__ == "__main__":
