@@ -1,24 +1,25 @@
 import streamlit as st
 from RBF import RBF  # RBF class created in RBF.py
 from SOM import SOM  # SOM class created in SOM.py
+from PCA_GUI import PCACalculator
 
 def main():
     st.title("Advanced Neural Networks")
 
-    # Initialize RBF in session state
+    # Initialize classes in session state
     if "rbf" not in st.session_state:
         st.session_state.rbf = RBF()
-
-    rbf = st.session_state.rbf  # Access stored RBF object
-
-    # Initialize SOM in session state
     if "som" not in st.session_state:
         st.session_state.som = SOM()
+    if "pca" not in st.session_state:
+        st.session_state.pca = PCACalculator()
 
-    som = st.session_state.som  # Access stored SOM object
+    rbf = st.session_state.rbf
+    som = st.session_state.som
+    pca = st.session_state.pca
 
     # Create tabs
-    tab1, tab2 = st.tabs(["RBF Calculator", "SOM Calculator"])
+    tab1, tab2, tab3 = st.tabs(["RBF Calculator", "SOM Calculator", "PCA Calculator"])
 
     # Tab 1: RBF Calculator
     with tab1:
@@ -87,6 +88,35 @@ def main():
         if st.session_state.get("step_3_done", False):
             st.subheader("Show Updated Cluster Weights")
             som.show_new_weights()
-
+    # PCA Tab
+    with tab3:
+        st.header("Principal Component Analysis (PCA) Calculator")
+        
+        # Step 1: Input Data
+        input_success = pca.get_input()
+        
+        if input_success:
+            # Step 2: Compute Covariance
+            st.subheader("Step 2: Compute Covariance Matrix")
+            if st.button("Compute Covariance"):
+                pca.compute_covariance()
+            
+            if st.session_state.get("covariance_done", False):
+                # Step 3: Compute Eigenvalues/Vectors
+                st.subheader("Step 3: Compute Eigenvalues & Eigenvectors")
+                if st.button("Compute Eigen"):
+                    pca.compute_eigen()
+                
+                if st.session_state.get("eigen_done", False):
+                    # Step 4: Transform Data
+                    st.subheader("Step 4: Transform Data")
+                    if st.button("Transform Data"):
+                        pca.transform_data()
+                    
+                    if st.session_state.get("transform_done", False):
+                        # Step 5: Display Results
+                        st.subheader("Step 5: Results")
+                        pca.display_results()
+                        pca.plot_results()
 if __name__ == "__main__":
     main()
