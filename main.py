@@ -1,7 +1,7 @@
 import streamlit as st
 from RBF import RBF  # RBF class created in RBF.py
 from SOM import SOM  # SOM class created in SOM.py
-from PCA_GUI import PCACalculator
+from PCA import PCACalculator
 
 def main():
     st.title("Advanced Neural Networks")
