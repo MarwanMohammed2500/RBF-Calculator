@@ -2,6 +2,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 class PCA:
     def __init__(self, data, columns):
@@ -139,8 +142,6 @@ class PCACalculator:
         st.write(pd.DataFrame(results["Transformed Data"], columns=["PC1", "PC2"]))
     
     def plot_results(self):
-        import matplotlib.pyplot as plt
-        import seaborn as sns
     
         # Create a 2x2 grid layout
         fig = plt.figure(figsize=(15, 12))
