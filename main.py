@@ -2,6 +2,7 @@ import streamlit as st
 from RBF import RBF  # RBF class created in RBF.py
 from SOM import SOM  # SOM class created in SOM.py
 from PCA import PCACalculator
+from genetic import Genetic  # Genetic class created in Genetic.py
 
 def main():
     st.title("Advanced Neural Networks")
@@ -13,13 +14,16 @@ def main():
         st.session_state.som = SOM()
     if "pca" not in st.session_state:
         st.session_state.pca = PCACalculator()
+    if "ga" not in st.session_state:
+        st.session_state.ga = Genetic()
 
     rbf = st.session_state.rbf
     som = st.session_state.som
     pca = st.session_state.pca
+    ga = st.session_state.ga
 
     # Create tabs
-    tab1, tab2, tab3 = st.tabs(["RBF Calculator", "SOM Calculator", "PCA Calculator"])
+    tab1, tab2, tab3, tab4 = st.tabs(["RBF Calculator", "SOM Calculator", "PCA Calculator", "Genetic Algorithm Calculator"])
 
     # Tab 1: RBF Calculator
     with tab1:
@@ -78,17 +82,18 @@ def main():
                 som.calculate_distance()
                 st.session_state.step_2_done = True
         
-        # Step 3: Get the winner cluster for each neuron. (Enabled only when step 2 is done)
+        # Step 3: Get the winner cluster for each neuron (Enabled only when step 2 is done)
         if st.session_state.get("step_2_done", False):
-            st.subheader("Get winner cluster for each neuron")
+            st.subheader("Step 3: Get winner cluster for each neuron")
             som.find_winner()
             st.session_state.step_3_done = True
 
         # Step 4: Show Updated Cluster Weights (Enabled only if Step 3 is done)
         if st.session_state.get("step_3_done", False):
-            st.subheader("Show Updated Cluster Weights")
+            st.subheader("Step 4: Show Updated Cluster Weights")
             som.show_new_weights()
-    # PCA Tab
+
+    # Tab 3: PCA Calculator
     with tab3:
         st.header("Principal Component Analysis (PCA) Calculator")
         
@@ -118,5 +123,25 @@ def main():
                         st.subheader("Step 5: Results")
                         pca.display_results()
                         pca.plot_results()
+
+    # Tab 4: Genetic Algorithm Calculator
+    with tab4:
+        st.header("Genetic Algorithm Calculator")
+
+        # Step 1: Initialize Population
+        st.subheader("Step 1: Initialize Population")
+        if st.button("Initialize Random Population"):
+            ga.initialize_population()
+            ga.display_population()
+
+        # Step 2: Run Genetic Algorithm
+        if st.session_state.get("ga_initialized", False):
+            st.subheader("Step 2: Run Genetic Algorithm")
+            if st.button("Run GA"):
+                ga.run()
+                ga.display_population()
+                ga.get_results()
+                ga.plot_fitness()
+
 if __name__ == "__main__":
     main()
