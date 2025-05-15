@@ -1,9 +1,11 @@
 import streamlit as st
-from RBF import RBF  # RBF class created in RBF.py
-from SOM import SOM  # SOM class created in SOM.py
+from RBF import RBF
+from SOM import SOM
 from PCA import PCACalculator
-from genetic import Genetic  # Genetic class created in Genetic.py
-
+from genetic import Genetic
+from ART import ART1
+import numpy as np
+import pandas as pd
 def main():
     st.title("Advanced Neural Networks")
 
@@ -16,14 +18,17 @@ def main():
         st.session_state.pca = PCACalculator()
     if "ga" not in st.session_state:
         st.session_state.ga = Genetic()
+    if "art1" not in st.session_state:
+        st.session_state.art1 = ART1()
 
     rbf = st.session_state.rbf
     som = st.session_state.som
     pca = st.session_state.pca
     ga = st.session_state.ga
+    art1 = st.session_state.art1
 
     # Create tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["RBF Calculator", "SOM Calculator", "PCA Calculator", "Genetic Algorithm Calculator"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["RBF Calculator", "SOM Calculator", "PCA Calculator", "Genetic Algorithm Calculator", "ART1 Calculator"])
 
     # Tab 1: RBF Calculator
     with tab1:
@@ -119,7 +124,7 @@ def main():
                         pca.transform_data()
                     
                     if st.session_state.get("transform_done", False):
-                        # Step 5: Display Results
+                        # Step 5: Results
                         st.subheader("Step 5: Results")
                         pca.display_results()
                         pca.plot_results()
@@ -142,6 +147,52 @@ def main():
                 ga.display_population()
                 ga.get_results()
                 ga.plot_fitness()
+
+    # Tab 5: ART1 Calculator
+    with tab5:
+        st.header("ART1 Calculator")
+
+        # Step 1: Select Example or Custom Input
+        use_example = st.radio("Use Example Vectors?", ("Yes", "No"), index=0)
+        if use_example == "Yes":
+            n = 4
+            m = 3
+            rho = 0.4
+            L = 2
+            vectors = [(1,1,0,0), (0,0,0,1), (1,0,0,0), (0,0,1,1)]
+            st.write("Example Vectors: ", vectors)
+        else:
+            st.subheader("Custom Input")
+            n = st.number_input("Number of components (n)", min_value=1, value=4)
+            m = st.number_input("Max number of clusters (m)", min_value=1, value=3)
+            rho = st.number_input("Vigilance parameter (rho)", min_value=0.0, max_value=1.0, value=0.4)
+            L = st.number_input("L parameter", min_value=1.1, value=2.0)
+            vector_data = st.data_editor(
+                pd.DataFrame(columns=[f"X{i+1}" for i in range(n)]),
+                num_rows="dynamic"
+            )
+            vectors = [tuple(row.dropna().astype(int).tolist()) for _, row in vector_data.iterrows() if row.notna().any()]
+            st.write("Entered Vectors:", vectors)
+
+        # Initialize ART1 with user parameters
+        art1.n = n
+        art1.m = m
+        art1.rho = rho
+        art1.L = L
+        art1.b = np.full((n, m), 1 / (1 + n))
+        art1.t = np.ones((n, m))
+        art1.b_initial = art1.b.copy()
+        art1.t_initial = art1.t.copy()
+        art1.clusters = {}
+        art1.active_nodes = set()
+
+        # Step 2: Run ART1 Clustering
+        if st.button("Run ART1") and vectors:
+            art1.fit(vectors)
+            if st.session_state.get("art1_done", False):
+                art1.display_results()
+                art1.plot_clusters()
+                art1.plot_heatmaps()
 
 if __name__ == "__main__":
     main()
