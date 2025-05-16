@@ -134,6 +134,12 @@ def main():
             st.subheader("Project Data into the Principle Component")
             if st.button("Project Data"):
                 pca.project_data()
+                st.session_state.pca_step_5_done = True
+        
+        # Final step: Display and plot
+        if st.session_state.get("pca_step_5_done", False):
+            st.subheader("Final Step: Display and Plot")
+            if st.button("Display and Plot"):
                 pca.display_results()
                 pca.plot_results()
                  
