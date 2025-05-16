@@ -146,12 +146,6 @@ def main():
             if st.button("Display and Plot"):
                 pca.display_results()
                 pca.plot_results()
-                 
-        # Step 4: Results
-        # if st.session_state.get("pca_step_4_done", False):
-        #     st.subheader("Step 4: Results")
-        #     pca.display_results()
-        #     pca.plot_results()
 
     # Tab 4: Genetic Algorithm Calculator
     # with tab4:
