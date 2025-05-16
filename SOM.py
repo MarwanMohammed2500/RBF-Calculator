@@ -16,9 +16,6 @@ class SOM:
     show_new_weights():
         Used to show the table of updated weights.
     """
-
-    # def __init__(self):
-    #     self.training_vectors = np.array()
     
     def get_input(self):
         """
