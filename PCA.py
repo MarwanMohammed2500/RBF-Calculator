@@ -12,12 +12,7 @@ class PCA:
     def get_input(self):
         choice = st.selectbox("Do you have a dataset file (csv) or will you manually insert data?",
                               ("Select", "I have a CSV file", "I'll manually insert my data"))
-        # self.k = st.text_input("To how many columns do you want to reduce the data?")
-        # try:
-        #     if self.k:
-        #         self.k = int(self.k)
-        # except ValueError:
-        #     st.error("Please insert a number")
+
         # If the user has a CSV File they want to upload
         if choice == "I have a CSV file":
             uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
