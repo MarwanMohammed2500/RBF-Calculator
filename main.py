@@ -108,25 +108,40 @@ def main():
         if pca.data is not None:
             st.session_state.pca_step_1_done = True
         
-        # Step 2: Compute Eigenvalues/Vectors
+        # Step 2: Centralize the data
         if st.session_state.get("pca_step_1_done", False):
-            st.subheader("Step 3: Compute Eigenvalues & Eigenvectors")
-            if st.button("Compute Eigen"):
-                pca.compute_eigen()
+            st.subheader("Step 2: Centralize the Data")
+            if st.button("Centralize Data"):
+                pca.centralize()
                 st.session_state.pca_step_2_done = True
-             
-        # Step 3: Transform Data
-        if st.session_state.get("pca_step_2_done", False):    
-            st.subheader("Step 3: Transform Data")
-            if st.button("Transform Data"):
-                pca.transform_data()
+        
+        # Step 3: Compute covariance
+        if st.session_state.get("pca_step_2_done", False):
+            st.subheader("Step 3: Compute covariance")
+            if st.button("Compute Covariance"):
+                pca.covariance()
                 st.session_state.pca_step_3_done = True
+             
+        # Step 4: Compute the Eignes
+        if st.session_state.get("pca_step_3_done", False):    
+            st.subheader("Step 3: Compute the Eigens")
+            if st.button("Compute Eigens"):
+                pca.compute_eigens()
+                st.session_state.pca_step_4_done = True
+        
+        # Step 5: Project Data into the principle component:
+        if st.session_state.get("pca_step_4_done", False):
+            st.subheader("Project Data into the Principle Component")
+            if st.button("Project Data"):
+                pca.project_data()
+                pca.display_results()
+                pca.plot_results()
                  
         # Step 4: Results
-        if st.session_state.get("pca_step_3_done", False):
-            st.subheader("Step 4: Results")
-            pca.display_results()
-            pca.plot_results()
+        # if st.session_state.get("pca_step_4_done", False):
+        #     st.subheader("Step 4: Results")
+        #     pca.display_results()
+        #     pca.plot_results()
 
     # Tab 4: Genetic Algorithm Calculator
     # with tab4:
