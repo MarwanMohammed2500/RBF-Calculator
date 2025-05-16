@@ -16,6 +16,10 @@ class SOM:
     show_new_weights():
         Used to show the table of updated weights.
     """
+
+    # def __init__(self):
+    #     self.training_vectors = np.array()
+    
     def get_input(self):
         """
         This function is responsible for getting user input from the interface and making sure the user inputs the right data types into their respective fields.
@@ -24,42 +28,42 @@ class SOM:
         self.number_of_clusters --> The number of clusters
         self.learning_rate --> The learning rate
         """
-        self.number_of_neurons = st.text_input("How many neurons exist?:") # Get the number of neurons
+        self.number_of_neurons = st.text_input("How many neurons in the network?:") # Get the number of neurons
         self.number_of_clusters = st.text_input("How many clusters exist?:") # Get the number of clusters
-        self.learning_rate = st.text_input("What is the initial learning rate?:") # get the learning rate
+        self.learning_rate = st.text_input("Set the initial learning rate:") # get the learning rate
         self.decay = st.text_input("What is the rate of decay of the learning rate?:") # get the rate of decay of the learning rate
-        self.choice = st.selectbox("Would you like to randomly initialize the weights or have your own input",
+        self.choice = st.selectbox("Would you like to randomly initialize the weights or have your own input?",
                               ("Random Initialization", "I have my own weights"))
         if self.number_of_neurons and self.number_of_clusters and self.learning_rate and self.choice and self.decay: # check input
             try:
-                self.number_of_neurons = int(self.number_of_neurons) # Cast it into "int"
-                self.number_of_clusters = int(self.number_of_clusters) # Cast it into "int"
-                self.learning_rate = float(self.learning_rate) # Cast it into "float"
-                self.decay = float(self.decay) # Cast it into "float"
-                if self.decay > 1:
+                self.number_of_neurons = int(self.number_of_neurons) # Cast into "int"
+                self.number_of_clusters = int(self.number_of_clusters) # Cast into "int"
+                self.learning_rate = float(self.learning_rate) # Cast into "float"
+                self.decay = float(self.decay) # Cast into "float"
+                if not 0 < self.decay < 1:
                     st.warning("the rate of decay must be between 0 and 1")
                 if self.choice == "Random Initialization":
                     self.initialize_vectors_random() # Call initialize_vectors_random after making sure all inputs are valid.
                 else:
                     self.initialize_vectors_input() # Call initialize_vectors_input after making sure all inputs are valid.
             except ValueError:
-                st.warning("Invalid input detected. Please enter correct values.")
+                st.warning("Invalid input. Please insert valid values.")
         else:
             st.info("Please provide input data to proceed.")
         
     def initialize_vectors_random(self):
         """
-        This function is responsible for initializing clusters vectors and training vectors:
+        This function is responsible for initializing clusters vectors and training vectors randomly:
         self.clusters_vectors --> cluster weights matrix (randomly initialized)
         self.number_of_clusters --> The number of clusters
         self.training_vectors --> The training vectors
         """
         if hasattr(self, 'number_of_neurons') and hasattr(self, 'number_of_clusters'):
             self.clusters_vectors = np.random.rand(self.number_of_neurons, self.number_of_clusters) # Randomly Initialize the cluster weights
-            data = {f"Training Vector #{col+1}": [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
+            data = {f"Vector Component #{col+1}": [] for col in range(self.number_of_neurons)} # Get the number of columns (number of neurons) for the next step
             st.write("Input training vectors (each row is a training vector):")
-            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
-            self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
+            training_vects_rndm = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
+            self.training_vectors = pd.DataFrame(training_vects_rndm) # Turns it into a DataFrame
         else:
             st.warning("Please provide valid input for number of neurons and clusters.")
 
@@ -75,10 +79,10 @@ class SOM:
             st.write("Input cluster weights (each column is a weight vector):")
             clusters_vects = st.data_editor(pd.DataFrame(col), num_rows="dynamic") # Get user input to initialize the cluster weights
             self.clusters_vectors = np.array(clusters_vects) # Turns it into a NumPy array
-            data = {f"Training Vector #{col+1}": [] for col in range(self.number_of_neurons)}
+            data = {f"Vector Component #{col+1}": [] for col in range(self.number_of_neurons)}
             st.write("Input training vectors (each row is a training vector):")
-            training_vects = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
-            self.training_vectors = pd.DataFrame(training_vects) # Turns it into a DataFrame
+            training_vects_in = st.data_editor(pd.DataFrame(data), num_rows="dynamic") # Gets input from the user
+            self.training_vectors = pd.DataFrame(training_vects_in) # Turns it into a DataFrame
         else:
             st.warning("Please provide valid input for number of neurons and clusters.")
     
