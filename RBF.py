@@ -27,8 +27,22 @@ class RBF:
         self.sigma_sq --> The variance
         """
 
-        __data = st.data_editor(pd.DataFrame({'category': [], 'x1': [], "x2":[]}), num_rows="dynamic")
-        self.df = pd.DataFrame(__data)
+        select = st.selectbox("Do you have a csv file or will you manually insert data?",
+                              ("Select", "I have a CSV file", "I'll manually insert my data"))
+
+        # If the user has a CSV File they want to upload
+        if select == "I have a CSV file":
+            uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
+            if uploaded_file is not None:
+                self.df = pd.read_csv(uploaded_file, header=None)
+                self.df = self.df.set_axis(['category', 'x1', 'x2'], axis=1)
+                __data = st.data_editor(self.df, num_rows="dynamic")
+        # If the user will manually insert the data
+        elif select == "I'll manually insert my data":
+            __data = st.data_editor(pd.DataFrame({'category': [], 'x1': [], "x2":[]}), num_rows="dynamic")
+            self.df = pd.DataFrame(__data)
+        
+        
         self.c1 = st.text_input("Enter c1 (separate values using a comma):")
         self.c2 = st.text_input("Enter c2 (separate values using a comma):")
         self.sigma_sq = st.text_input("Enter 𝝈^2 (either enter a floating point or an integer, no fractions allowed):")

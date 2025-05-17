@@ -22,7 +22,8 @@ class PCA:
         # If the user will manually insert the data
         elif choice == "I'll manually insert my data":
             number_of_features = st.text_input("How many features are in the data?:") # Get the number of features
-            if isinstance(number_of_features, int):
+            if number_of_features:
+                number_of_features = int(number_of_features)
                 data_matrix = st.data_editor(pd.DataFrame(columns={f"Feature {col+1}": [] for col in range(number_of_features)}), num_rows="dynamic")
                 if not data_matrix.empty:
                     self.data = pd.DataFrame(data_matrix)
