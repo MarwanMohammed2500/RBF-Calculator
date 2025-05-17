@@ -26,7 +26,7 @@ class PCA:
                 number_of_features = int(number_of_features)
                 data_matrix = st.data_editor(pd.DataFrame(columns={f"Feature {col+1}": [] for col in range(number_of_features)}), num_rows="dynamic")
                 if not data_matrix.empty:
-                    self.data = pd.DataFrame(data_matrix, dtype="int64")
+                    self.data = pd.DataFrame(data_matrix, dtype="float64")
             else:
                 st.warning("Insert an integer")
         
