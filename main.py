@@ -147,6 +147,7 @@ def main():
                 pca.display_results()
                 pca.plot_results()
 
+<<<<<<< HEAD
 # Tab 4: Genetic Algorithm Calculator
     with tab4:
         st.header("Genetic Algorithm Calculator")
@@ -175,6 +176,27 @@ def main():
             ga.display_population()
             ga.get_results()
             ga.plot_fitness()
+=======
+    # Tab 4: Genetic Algorithm Calculator
+    with tab4:
+        st.header("Genetic Algorithm Calculator")
+
+        # Step 1: Initialize Population
+        st.subheader("Step 1: Initialize Population")
+        if st.button("Initialize Random Population"):
+            ga.initialize_population()
+            ga.display_population()
+            st.session_state.gen_step_1_done = True
+
+        # Step 2: Run Genetic Algorithm
+        if st.session_state.get("gen_step_1_done", False):
+            st.subheader("Step 2: Run Genetic Algorithm")
+            if st.button("Run GA"):
+                ga.run()
+                ga.display_population()
+                ga.get_results()
+                ga.plot_fitness()
+>>>>>>> 6c0070faf93a257faf942eda7ef10bf038158948
 
     # Tab 5: ART1 Calculator
     with tab5:
@@ -225,7 +247,6 @@ def main():
     
     with tab6:
         st.header("Fuzzy Algorithm Calculator")
-        
         fuzzy.get_input()
         
 
