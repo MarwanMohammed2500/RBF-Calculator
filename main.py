@@ -147,25 +147,34 @@ def main():
                 pca.display_results()
                 pca.plot_results()
 
-    # Tab 4: Genetic Algorithm Calculator
-    # with tab4:
-    #     st.header("Genetic Algorithm Calculator")
+# Tab 4: Genetic Algorithm Calculator
+    with tab4:
+        st.header("Genetic Algorithm Calculator")
 
-    #     # Step 1: Initialize Population
-    #     st.subheader("Step 1: Initialize Population")
-    #     if st.button("Initialize Random Population"):
-    #         ga.initialize_population()
-    #         ga.display_population()
-    #         st.session_state.gen_step_1_done = True
+        # Step 1: Configure Parameters
+        st.subheader("Step 1: Configure Parameters")
+        population_size = st.number_input("Population Size", min_value=4, value=10, step=1)
+        num_crossover_points = st.selectbox("Number of Crossover Points", [2, 3], index=0)
+        crossover_points = []
+        for i in range(num_crossover_points):
+            cp = st.number_input(f"Crossover Point {i+1} (1 to 7)", min_value=1, max_value=7, value=i+2)
+            crossover_points.append(cp)
+        mutation_rate = st.number_input("Mutation Rate", min_value=0.0, max_value=1.0, value=0.1, step=0.01)
 
-    #     # Step 2: Run Genetic Algorithm
-    #     if st.session_state.get("gen_step_1_done", False):
-    #         st.subheader("Step 2: Run Genetic Algorithm")
-    #         if st.button("Run GA"):
-    #             ga.run()
-    #             ga.display_population()
-    #             ga.get_results()
-    #             ga.plot_fitness()
+        # Step 2: Initialize Population
+        st.subheader("Step 2: Initialize Population")
+        if st.button("Initialize Random Population"):
+            if ga.initialize_population(population_size, num_crossover_points, crossover_points, mutation_rate):
+                ga.display_population()
+
+    # Step 3: Run Genetic Algorithm
+    if st.session_state.get("ga_initialized", False):
+        st.subheader("Step 3: Run Genetic Algorithm")
+        if st.button("Run GA"):
+            ga.run()
+            ga.display_population()
+            ga.get_results()
+            ga.plot_fitness()
 
     # Tab 5: ART1 Calculator
     with tab5:
