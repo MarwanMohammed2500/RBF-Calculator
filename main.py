@@ -216,7 +216,6 @@ def main():
     
     with tab6:
         st.header("Fuzzy Algorithm Calculator")
-        
         fuzzy.get_input()
         
 
