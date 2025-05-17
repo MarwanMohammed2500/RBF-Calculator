@@ -148,24 +148,24 @@ def main():
                 pca.plot_results()
 
     # Tab 4: Genetic Algorithm Calculator
-    # with tab4:
-    #     st.header("Genetic Algorithm Calculator")
+    with tab4:
+        st.header("Genetic Algorithm Calculator")
 
-    #     # Step 1: Initialize Population
-    #     st.subheader("Step 1: Initialize Population")
-    #     if st.button("Initialize Random Population"):
-    #         ga.initialize_population()
-    #         ga.display_population()
-    #         st.session_state.gen_step_1_done = True
+        # Step 1: Initialize Population
+        st.subheader("Step 1: Initialize Population")
+        if st.button("Initialize Random Population"):
+            ga.initialize_population()
+            ga.display_population()
+            st.session_state.gen_step_1_done = True
 
-    #     # Step 2: Run Genetic Algorithm
-    #     if st.session_state.get("gen_step_1_done", False):
-    #         st.subheader("Step 2: Run Genetic Algorithm")
-    #         if st.button("Run GA"):
-    #             ga.run()
-    #             ga.display_population()
-    #             ga.get_results()
-    #             ga.plot_fitness()
+        # Step 2: Run Genetic Algorithm
+        if st.session_state.get("gen_step_1_done", False):
+            st.subheader("Step 2: Run Genetic Algorithm")
+            if st.button("Run GA"):
+                ga.run()
+                ga.display_population()
+                ga.get_results()
+                ga.plot_fitness()
 
     # Tab 5: ART1 Calculator
     with tab5:
